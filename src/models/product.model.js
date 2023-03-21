@@ -1,21 +1,22 @@
-const connecttion = require('./connection');
+const connection = require('./connection');
 
-const findAll = async () => {
-  const [result] = await connecttion.execute(
-    'SELECT * FROM products ORDER BY id',
+const getAll = async () => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.products ORDER BY id',
   );
   return result;
 };
 
-const findById = async (productId) => {
-  const [[product]] = await connecttion.execute(
-    'SELECT * FROM products WHERE id = ?',
+const getById = async (productId) => {
+  const [[product]] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE id = ?',
     [productId],
   );
+  console.log(product);
   return product;
 };
 
 module.exports = {
-  findAll,
-  findById,
+  getAll,
+  getById,
 };
