@@ -6,3 +6,38 @@ const sinonChai = require('sinon-chai');
 const { expect } = chai;
 chai.use(sinonChai);
 chai.use(chaiHttp);
+
+const { productModel } = require('../../../src/models');
+const connection = require('../../../src/models/connection');
+
+const { products } = require('../controllers/mocks/products.controller.mocks');
+
+describe('Service - Teste a camada de Service', function () {
+  describe('GetAll Products', function () {
+    afterEach(() => {
+      sinon.restore()
+    });
+
+    it('Lista todos os produtos', async function () {
+      sinon.stub(connection, 'execute').resolves([products]);
+
+      const result = await productModel.getAll();
+
+      expect(result).to.be.deep.equal(products);
+    })
+  })
+
+  describe('Lista por id', function () {
+    afterEach(() => {
+      sinon.restore()
+    });
+
+    it('Lista o produto pelo id buscado', async function () {
+      sinon.stub(connection, 'execute').resolves([products]);
+
+      const result = await productModel.getById(1);
+
+      expect(result).to.be.deep.equal(products[0]);
+    })
+  })
+});
