@@ -7,9 +7,9 @@ const { expect } = chai;
 chai.use(sinonChai);
 chai.use(chaiHttp);
 const { productService } = require('../../../src/services');
+const { productsController } = require('../../../src/controllers');
 
 const { products } = require('./mocks/products.controller.mocks');
-const { productsController } = require('../../../src/controllers');
 
 describe('Products - Teste a camada de controller', function () {
   describe('GetAll Products', function () {
