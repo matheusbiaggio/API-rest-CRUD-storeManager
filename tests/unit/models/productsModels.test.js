@@ -12,8 +12,8 @@ const connection = require('../../../src/models/connection');
 
 const { products } = require('../controllers/mocks/products.controller.mocks');
 
-describe('Service - Teste a camada de Service', function () {
-  describe('GetAll Products', function () {
+describe('Model - Teste a camada de Model', function () {
+  describe('Lista todos os produtos', function () {
     afterEach(() => {
       sinon.restore()
     });
@@ -25,7 +25,7 @@ describe('Service - Teste a camada de Service', function () {
 
       expect(result).to.be.deep.equal(products);
     })
-  })
+  });
 
   describe('Lista por id', function () {
     afterEach(() => {
@@ -38,6 +38,20 @@ describe('Service - Teste a camada de Service', function () {
       const result = await productModel.getById(1);
 
       expect(result).to.be.deep.equal(products[0]);
+    });
+  });
+
+  describe('Adiciona um produto', function () {
+    afterEach(() => {
+      sinon.restore()
+    });
+      
+    it('Verifica se é adicionado um produto passando o nome como parametro', async function () {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 5 }]);
+
+      const result = await productModel.addProduct('Teste');
+      
+      expect(result).to.be.equal(5);
     })
-  })
+  });
 });

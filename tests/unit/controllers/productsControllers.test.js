@@ -12,7 +12,7 @@ const { productsController } = require('../../../src/controllers');
 const { products } = require('./mocks/products.controller.mocks');
 
 describe('Products - Teste a camada de controller', function () {
-  describe('GetAll Products', function () {
+  describe('Lista todos os produtos', function () {
     afterEach(() => {
       sinon.restore()
     });
@@ -84,4 +84,42 @@ describe('Products - Teste a camada de controller', function () {
       expect(res.status).to.have.been.calledWith(404);
     });
   })
+
+  describe('Adiciona um produto', function () {
+    afterEach(() => {
+      sinon.restore()
+    });
+
+    it('Verifica se é adicionado um produto passando o nome como parametro', async function () {
+      sinon.stub(productService, 'addProduct').resolves({ type: null, message: {id: 99, name: 'Teste'} });
+      
+      const req = { body: { name: 'Teste' }};
+      const res = {};
+  
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      
+      await productsController.addProduct(req, res);
+  
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith({id: {id: 99, name: 'Teste'}, name: 'Teste'});
+    });
+
+    it('Retorna um erro ao inserir o name de forma erronea', async function () {
+      sinon.stub(productService, 'addProduct').resolves({
+        type: 'INVALID_VALUE',
+        message: 'Erro ao inserir',
+      });
+      
+      const req = { body: { name: 'Teste' }};
+      const res = {};
+  
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      
+      await productsController.addProduct(req, res);
+  
+      expect(res.status).to.have.been.calledWith(422);
+    });
+  });
 });

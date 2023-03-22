@@ -13,7 +13,7 @@ const { productService } = require('../../../src/services');
 const { products } = require('../controllers/mocks/products.controller.mocks');
 
 describe('Service - Teste a camada de Service', function () {
-  describe('GetAll Products', function () {
+  describe('Lista todos produtos', function () {
     afterEach(() => {
       sinon.restore()
     });
@@ -47,6 +47,29 @@ describe('Service - Teste a camada de Service', function () {
       const result = await productService.getById(5);
 
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
+    });
+  });
+
+  describe('Adiciona um produto', function () {
+    afterEach(() => {
+      sinon.restore()
+    });
+
+    it('Verifica se é adicionado um produto passando o nome como parametro', async function () {
+      sinon.stub(productModel, 'addProduct').resolves(products[0]);
+      
+      const result = await productService.addProduct([products.message]);
+
+      expect(result.type).to.equal(null);
+      expect(result.message).to.equal(products[0]);
+    });
+
+    it('Retorna um erro ao inserir o name de forma erronea', async function () {
+      sinon.stub(productModel, 'addProduct').resolves();
+      
+      const result = await productService.addProduct([products.message]);
+
+      expect(result.type).to.equal('INVALID_VALUE');
     });
   });
 });
