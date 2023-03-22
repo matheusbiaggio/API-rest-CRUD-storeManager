@@ -16,7 +16,20 @@ const getById = async (productId) => {
   return { type: null, message: product };
 };
 
+const addProduct = async (nameProduct) => {
+  const newProduct = await models.productModel.addProduct(nameProduct);
+
+  if (!newProduct) {
+    return {
+      type: 'INVALID_VALUE',
+      message: 'Erro ao inserir',
+    };
+  }
+  return { type: null, message: newProduct };
+};
+
 module.exports = {
   getAll,
   getById,
+  addProduct,
 };
