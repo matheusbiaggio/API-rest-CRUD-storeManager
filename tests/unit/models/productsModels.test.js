@@ -12,7 +12,7 @@ const connection = require('../../../src/models/connection');
 
 const { products } = require('../controllers/mocks/products.controller.mocks');
 
-describe('Model - Teste a camada de Model', function () {
+describe('ModelProducts - Teste a camada de Model', function () {
   describe('Lista todos os produtos', function () {
     afterEach(() => {
       sinon.restore()

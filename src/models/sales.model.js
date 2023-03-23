@@ -44,5 +44,6 @@ const addSales = async (salesData) => {
 module.exports = {
   getAll,
   getById,
+  insertIdSale,
   addSales,
 };
