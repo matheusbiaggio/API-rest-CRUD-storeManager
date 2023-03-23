@@ -12,7 +12,9 @@ const getById = async (req, res) => {
 
   const sale = await services.salesService.getById(id);
 
-  res.status(200).json(sale);
+  if (sale.type) return res.status(404).json({ message: sale.message });
+
+  res.status(200).json(sale.message);
 };
 
 const addSales = async (req, res) => {

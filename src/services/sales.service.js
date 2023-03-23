@@ -9,6 +9,8 @@ const getAll = async () => {
 const getById = async (id) => {
   const sale = await models.salesModel.getById(id);
 
+  if (!sale[0]) return { type: 'INVALID_ID', message: 'Sale not found' };
+
   return { type: null, message: sale };
 };
 
