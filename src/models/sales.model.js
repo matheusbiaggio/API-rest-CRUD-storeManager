@@ -19,7 +19,6 @@ const getById = async (id) => {
     ORDER BY sale_id ASC, product_id ASC`,
     [id],
   );
-
   return result;
 };
 

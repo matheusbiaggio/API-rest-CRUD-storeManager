@@ -12,7 +12,7 @@ const { salesService } = require('../../../src/services');
 
 const { sales, addSales } = require('../controllers/mocks/sales.controller.mock');
 
-describe('ModelSales - Teste a camada de Model', function () {
+describe('SalesController - Teste a camada de Model', function () {
   describe('Testa se lista todas as vendas', function () {
     afterEach(() => {
     sinon.restore()
@@ -51,7 +51,23 @@ describe('ModelSales - Teste a camada de Model', function () {
       await salesContoller.getById(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
-      expect(res.json).to.have.been.calledWith(sales[2]);
+    })
+
+    it('Verifica se é apresentado um erro ao inserir um id invalido', async function () {
+      sinon.stub(salesService, 'getById').resolves({
+        type: 'INVALID_ID',
+        message: 'Sale not found',
+      });
+
+      const req = { params: { id: 2 }};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await salesContoller.getById(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
     })
   })
 

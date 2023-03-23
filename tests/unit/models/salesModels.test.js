@@ -41,7 +41,7 @@ describe('ModelSales - Teste a camada de Model', function () {
 
       const result = await salesModel.getById(2);
 
-      expect(result).to.be.equal(sales[2]);
+      expect(result).to.be.deep.equal(sales[2]);
     })
   })
 

@@ -39,6 +39,17 @@ describe('ModelSales - Teste a camada de Model', function () {
       
       expect(result.type).to.equal(null)
     })
+
+    it('Verifica se é apresentado um erro ao inserir um id invalido', async function () {
+      sinon.stub(salesModel, 'getById').resolves({
+        type: 'INVALID_ID',
+        message: 'Sale not found',
+      });
+
+      const result = await salesService.getById(2);
+      
+      expect(result.type).to.equal('INVALID_ID')
+    })
   })
 
   describe('Criação de uma nova venda', function () {
