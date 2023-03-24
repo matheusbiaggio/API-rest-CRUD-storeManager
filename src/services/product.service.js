@@ -36,9 +36,18 @@ const updateProduct = async (id, name) => {
   return { type: null, message: update };
 };
 
+const deleteProduct = async (id) => {
+  const result = await models.productModel.deleteProduct(id);
+
+  if (result.affectedRows === 0) return { type: 'INVALID_ID', message: 'Product not found' };
+
+  return { type: null, message: result };
+};
+
 module.exports = {
   getAll,
   getById,
   addProduct,
   updateProduct,
+  deleteProduct,
 };
